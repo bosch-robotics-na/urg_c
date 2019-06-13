@@ -39,9 +39,9 @@ add_library(liburg_c ${LIBRARY_SRC_DIR}/urg_sensor.c
 	                 ${LIBRARY_SRC_DIR}/urg_time.c
 
 )
-if(NOT ANDROID)
+if(CMAKE_COMPILER_IS_GNUCXX)
 	target_link_libraries(liburg_c -lrt -lm)
-endif(NOT ANDROID)
+endif(CMAKE_COMPILER_IS_GNUCXX)
 
 add_library(open_urg_sensor ${LIBRARY_SAMPLE_DIR}/open_urg_sensor.c)
 target_link_libraries(open_urg_sensor -lm liburg_c ${LIBS})
