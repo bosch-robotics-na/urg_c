@@ -20,10 +20,6 @@ find_package(ament_cmake REQUIRED)
 ## Build ##
 ###########
 
-# Define additional libs
-set(LIBS
-)
-
 ## Specify additional locations of header files
 include_directories(${LIBRARY_INCLUDE_DIR})
 
@@ -44,41 +40,41 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 add_library(open_urg_sensor ${LIBRARY_SAMPLE_DIR}/open_urg_sensor.c)
-target_link_libraries(open_urg_sensor -lm liburg_c ${LIBS})
+target_link_libraries(open_urg_sensor -lm liburg_c)
 
 ## Declare samples
 add_executable(angle_convert_test ${LIBRARY_SAMPLE_DIR}/angle_convert_test.c)
-target_link_libraries(angle_convert_test liburg_c open_urg_sensor ${LIBS})
+target_link_libraries(angle_convert_test liburg_c open_urg_sensor)
 
 add_executable(calculate_xy ${LIBRARY_SAMPLE_DIR}/calculate_xy.c)
-target_link_libraries(calculate_xy liburg_c open_urg_sensor ${LIBS})
+target_link_libraries(calculate_xy liburg_c open_urg_sensor)
 
 add_executable(find_port ${LIBRARY_SAMPLE_DIR}/find_port.c)
-target_link_libraries(find_port liburg_c open_urg_sensor ${LIBS})
+target_link_libraries(find_port liburg_c open_urg_sensor)
 
 add_executable(get_distance ${LIBRARY_SAMPLE_DIR}/get_distance.c)
-target_link_libraries(get_distance liburg_c open_urg_sensor ${LIBS})
+target_link_libraries(get_distance liburg_c open_urg_sensor)
 
 add_executable(get_distance_intensity ${LIBRARY_SAMPLE_DIR}/get_distance_intensity.c)
-target_link_libraries(get_distance_intensity liburg_c open_urg_sensor ${LIBS})
+target_link_libraries(get_distance_intensity liburg_c open_urg_sensor)
 
 add_executable(get_multiecho ${LIBRARY_SAMPLE_DIR}/get_multiecho.c)
-target_link_libraries(get_multiecho liburg_c open_urg_sensor ${LIBS})
+target_link_libraries(get_multiecho liburg_c open_urg_sensor)
 
 add_executable(get_multiecho_intensity ${LIBRARY_SAMPLE_DIR}/get_multiecho_intensity.c)
-target_link_libraries(get_multiecho_intensity liburg_c open_urg_sensor ${LIBS})
+target_link_libraries(get_multiecho_intensity liburg_c open_urg_sensor)
 
 add_executable(reboot_test ${LIBRARY_SAMPLE_DIR}/reboot_test.c)
-target_link_libraries(reboot_test liburg_c open_urg_sensor ${LIBS})
+target_link_libraries(reboot_test liburg_c open_urg_sensor)
 
 add_executable(sensor_parameter ${LIBRARY_SAMPLE_DIR}/sensor_parameter.c)
-target_link_libraries(sensor_parameter liburg_c open_urg_sensor ${LIBS})
+target_link_libraries(sensor_parameter liburg_c open_urg_sensor)
 
 add_executable(sync_time_stamp ${LIBRARY_SAMPLE_DIR}/sync_time_stamp.c)
-target_link_libraries(sync_time_stamp liburg_c open_urg_sensor ${LIBS})
+target_link_libraries(sync_time_stamp liburg_c open_urg_sensor)
 
 add_executable(timeout_test ${LIBRARY_SAMPLE_DIR}/timeout_test.c)
-target_link_libraries(timeout_test liburg_c open_urg_sensor ${LIBS})
+target_link_libraries(timeout_test liburg_c open_urg_sensor)
 
 #############
 ## Install ##
@@ -99,5 +95,5 @@ install(DIRECTORY ${LIBRARY_INCLUDE_DIR}/${PROJECT_NAME}/
 )
 
 ament_export_include_directories(include)
-ament_export_libraries(liburg_c open_urg_sensor ${LIBS})
+ament_export_libraries(liburg_c open_urg_sensor)
 ament_package()
