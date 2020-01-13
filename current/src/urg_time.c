@@ -20,7 +20,7 @@ void urg_walltime(unsigned long *sec, unsigned long *nsec)
 #else
     struct timeval timeofday;
     gettimeofday(&timeofday,NULL);
-    *sec  = (unsigned long)timeofday.tv_sec;
+    *sec  = static_cast<unsigned long>(timeofday.tv_sec);
     *nsec = timeofday.tv_usec * 1000;
 #endif
 #else
