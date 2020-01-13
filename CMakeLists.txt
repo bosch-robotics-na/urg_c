@@ -1,11 +1,17 @@
 cmake_minimum_required(VERSION 3.5)
 project(urg_c)
 
-# Support C++14
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}" -std=c++14)
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
 # Set library locations to better handle if upstream locations change
-set(LIBRARY_DIR current)
+set(LIBRARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/current)
 set(LIBRARY_INCLUDE_DIR ${LIBRARY_DIR}/include)
 set(LIBRARY_SRC_DIR ${LIBRARY_DIR}/src)
 set(LIBRARY_SAMPLE_DIR ${LIBRARY_DIR}/samples)
@@ -20,23 +26,25 @@ find_package(ament_cmake REQUIRED)
 ## Build ##
 ###########
 
-## Specify additional locations of header files
-include_directories(${LIBRARY_INCLUDE_DIR})
-
 ## Declare libraries
-add_library(urg_c SHARED ${LIBRARY_SRC_DIR}/urg_sensor.c
-	                 ${LIBRARY_SRC_DIR}/urg_utils.c
-	                 ${LIBRARY_SRC_DIR}/urg_debug.c
-	                 ${LIBRARY_SRC_DIR}/urg_connection.c
-	                 ${LIBRARY_SRC_DIR}/urg_ring_buffer.c
-	                 ${LIBRARY_SRC_DIR}/urg_serial.c
-	                 ${LIBRARY_SRC_DIR}/urg_serial_utils.c
-	                 ${LIBRARY_SRC_DIR}/urg_tcpclient.c
-	                 ${LIBRARY_SRC_DIR}/urg_time.c
-
+add_library(urg_c SHARED
+  ${LIBRARY_SRC_DIR}/urg_sensor.c
+  ${LIBRARY_SRC_DIR}/urg_utils.c
+  ${LIBRARY_SRC_DIR}/urg_debug.c
+  ${LIBRARY_SRC_DIR}/urg_connection.c
+  ${LIBRARY_SRC_DIR}/urg_ring_buffer.c
+  ${LIBRARY_SRC_DIR}/urg_serial.c
+  ${LIBRARY_SRC_DIR}/urg_serial_utils.c
+  ${LIBRARY_SRC_DIR}/urg_tcpclient.c
+  ${LIBRARY_SRC_DIR}/urg_time.c
+)
+target_include_directories(urg_c
+  PUBLIC
+  $<BUILD_INTERFACE:${LIBRARY_INCLUDE_DIR}>
+  $<INSTALL_INTERFACE:include>
 )
 if(CMAKE_COMPILER_IS_GNUCXX)
-	target_link_libraries(urg_c -lrt -lm)
+  target_link_libraries(urg_c -lrt -lm)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 add_library(open_urg_sensor ${LIBRARY_SAMPLE_DIR}/open_urg_sensor.c)
@@ -82,16 +90,16 @@ target_link_libraries(timeout_test urg_c open_urg_sensor)
 
 ## Mark executables and/or libraries for installation
 install(TARGETS urg_c open_urg_sensor angle_convert_test calculate_xy find_port
-                get_distance get_distance_intensity get_multiecho get_multiecho_intensity
-	            reboot_test sensor_parameter sync_time_stamp timeout_test
+  get_distance get_distance_intensity get_multiecho get_multiecho_intensity
+  reboot_test sensor_parameter sync_time_stamp timeout_test
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
 )
 
 ## Mark cpp header files for installation
-install(DIRECTORY ${LIBRARY_INCLUDE_DIR}/${PROJECT_NAME}/
-        DESTINATION include/${PROJECT_NAME}
+install(DIRECTORY ${LIBRARY_INCLUDE_DIR}/
+  DESTINATION include
 )
 
 ament_export_include_directories(include)
