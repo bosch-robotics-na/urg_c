@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.5)
 project(urg_c)
 
+find_package(ament_cmake REQUIRED)
+
+if(WIN32)
+  message(WARNING "${PROJECT_NAME} is currently not supported on Windows")
+  ament_package()
+  return()
+endif()
+
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
@@ -15,8 +23,6 @@ set(LIBRARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/current)
 set(LIBRARY_INCLUDE_DIR ${LIBRARY_DIR}/include)
 set(LIBRARY_SRC_DIR ${LIBRARY_DIR}/src)
 set(LIBRARY_SAMPLE_DIR ${LIBRARY_DIR}/samples)
-
-find_package(ament_cmake REQUIRED)
 
 ###################################################
 ## Declare things to be passed to other projects ##
